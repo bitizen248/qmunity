@@ -28,7 +28,7 @@ class ConfigModel(BaseModel):
             f"{class_name}__{key.upper()}": os.environ.get(
                 f"{class_name}__{key.upper()}"
             )
-                                            or str(field.default or "")
+            or str(field.default or "")
             for key, field in cls.__fields__.items()
         }
 
@@ -69,18 +69,13 @@ class MongoConfig(ConfigModel):
     db_name: str
 
     def get_connection_url(self):
-        return (
-            f"mongodb://{self.user}:{self.pwd}@{self.host}:{self.port}/{self.db_name}?authSource=admin"
-        )
+        return f"mongodb://{self.user}:{self.pwd}@{self.host}:{self.port}/{self.db_name}?authSource=admin"
 
 
 MONGO_CONFIG = MongoConfig()
 
 if __name__ == "__main__":
-    configs = [
-        PostgresConfig.get_fields_defaults(),
-        MongoConfig.get_fields_defaults()
-    ]
+    configs = [PostgresConfig.get_fields_defaults(), MongoConfig.get_fields_defaults()]
 
     if os.path.exists("../.env"):
         os.remove("../.env")

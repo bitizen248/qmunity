@@ -34,9 +34,7 @@ class AuthRepository:
 
     async def find_token(self, token: str) -> UserDto:
         try:
-            token = await self.model\
-                .get(token=token)\
-                .prefetch_related("user")
+            token = await self.model.get(token=token).prefetch_related("user")
         except DoesNotExist:
             raise ObjectDoesNotFound()
         return token.user.get_dto()
