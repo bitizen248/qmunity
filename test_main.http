@@ -1,0 +1,34 @@
+# Test your FastAPI endpoints
+
+POST http://127.0.0.1:8080/user/register
+Accept: application/json
+Content-Type: application/json
+
+{
+    "login": "bitizen1",
+    "password": "HorseBooks"
+}
+###
+
+POST http://127.0.0.1:8080/auth/login
+Accept: application/json
+Content-Type: application/json
+
+{
+    "login": "bitizen1",
+    "password": "HorseBooks"
+}
+###
+
+GET http://127.0.0.1:8080/user/me
+Accept: application/json
+Content-Type: application/json
+X-Token: EcSQmFEQtUATl2pZm6AJ2bGN75M8mjVK7GaHCAUR4Uz7mneUMh83ZD3zE6m6P8nF
+
+###
+
+POST http://127.0.0.1:8080/cv/create
+Accept: application/json
+Content-Type: application/json
+
+###
