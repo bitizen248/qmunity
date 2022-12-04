@@ -30,9 +30,9 @@ class AuthTokenResponse(BaseModel):
 
 class AuthController:
     def __init__(
-            self,
-            auth_repository: AuthRepository = Depends(),
-            user_repository: UserRepository = Depends(),
+        self,
+        auth_repository: AuthRepository = Depends(),
+        user_repository: UserRepository = Depends(),
     ) -> None:
         self.user_repository = user_repository
         self.auth_repository = auth_repository
@@ -63,7 +63,7 @@ class AuthController:
         return AuthTokenResponse(
             token=token.token,
             renew_token=token.renew_token,
-            expiration=token.expiration.timestamp()
+            expiration=token.expiration.timestamp(),
         )
 
     async def auth_user(self, token: str) -> UserObj:
