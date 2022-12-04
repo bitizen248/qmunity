@@ -9,6 +9,7 @@ from fastapi import Depends
 from fastapi import HTTPException
 from pydantic import BaseModel
 
+from qmunity.controllers.obj import UserObj
 from qmunity.models.auth import AuthTokenDto
 from qmunity.models.user import UserDto
 from qmunity.repository.auth import AuthRepository
@@ -21,11 +22,17 @@ class LoginForm(BaseModel):
     password: str
 
 
+class AuthTokenResponse(BaseModel):
+    token: str
+    renew_token: str
+    expiration: int
+
+
 class AuthController:
     def __init__(
-        self,
-        auth_repository: AuthRepository = Depends(),
-        user_repository: UserRepository = Depends(),
+            self,
+            auth_repository: AuthRepository = Depends(),
+            user_repository: UserRepository = Depends(),
     ) -> None:
         self.user_repository = user_repository
         self.auth_repository = auth_repository
@@ -35,7 +42,7 @@ class AuthController:
         letters = string.ascii_letters + string.digits
         return "".join(random.choice(letters) for _ in range(length))
 
-    async def login_user(self, login: str, password: str) -> AuthTokenDto:
+    async def login_user(self, login: str, password: str) -> AuthTokenResponse:
         try:
             user = await self.user_repository.find_user_with_hash_by_login(login)
         except ObjectDoesNotFound:
@@ -53,11 +60,15 @@ class AuthController:
             expiration=now + timedelta(days=30),
             renew_expiration=now + timedelta(days=60),
         )
-        return token
+        return AuthTokenResponse(
+            token=token.token,
+            renew_token=token.renew_token,
+            expiration=token.expiration.timestamp()
+        )
 
-    async def auth_user(self, token: str) -> UserDto:
+    async def auth_user(self, token: str) -> UserObj:
         try:
             user = await self.auth_repository.find_token(token)
         except ObjectDoesNotFound:
             raise HTTPException(status_code=401, detail="Method requires authorization")
-        return user
+        return UserObj(id=user.id, login=user.login)
