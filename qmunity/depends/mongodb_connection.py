@@ -1,4 +1,3 @@
-
 from motor import motor_asyncio as motor
 
 from qmunity.config import MONGO_CONFIG

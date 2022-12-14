@@ -5,7 +5,6 @@ from qmunity.controllers.user import UserController
 from qmunity.controllers.user import UserRegistrationForm
 from qmunity.depends.auth import auth_user
 from qmunity.endpoints.responses import SimpleResponse
-from qmunity.models.user import UserDto
 
 router = APIRouter()
 
