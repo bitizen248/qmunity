@@ -37,3 +37,12 @@ X-Token: EcSQmFEQtUATl2pZm6AJ2bGN75M8mjVK7GaHCAUR4Uz7mneUMh83ZD3zE6m6P8nF
   "purpose": "test"
 }
 ###
+
+GET http://127.0.0.1:8080/v1/cv/tags
+Accept: application/json
+Content-Type: application/json
+###
+GET http://127.0.0.1:8080/v1/cv/tags?parent_id=638547b8-ac67-4dc7-b2fc-30b67f3668c6
+Accept: application/json
+Content-Type: application/json
+###
