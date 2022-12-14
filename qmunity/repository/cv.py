@@ -9,6 +9,7 @@ from qmunity.depends import mongodb_connection
 from qmunity.models import CvTag
 from qmunity.models.cv import CvDto
 from qmunity.models.cv import CvTagDto
+from qmunity.repository.exceptions import ObjectDoesNotFound
 
 
 class CvTagsRepository:
@@ -48,3 +49,9 @@ class CvRepository:
         ).skip(offset):
             res.append(CvDto(**obj))
         return res
+
+    async def find_cv_by_id(self, id):
+        cv = await self.mongo_connection["cv"].find_one({'_id': id})
+        if cv is None:
+            raise ObjectDoesNotFound()
+        return CvDto(**cv)

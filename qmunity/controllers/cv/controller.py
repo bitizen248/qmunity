@@ -1,45 +1,22 @@
 from datetime import datetime
-from typing import List
 
 from fastapi import Depends
 from fastapi import HTTPException
-from pydantic import BaseModel
-from pydantic import Field
 
+from qmunity.controllers.common_objects import BasicUserInfo
+from qmunity.controllers.cv.objects import CreateCvForm
+from qmunity.controllers.cv.objects import CreateCvResponse
+from qmunity.controllers.cv.objects import CvDetailedResponse
+from qmunity.controllers.cv.objects import CvListItem
+from qmunity.controllers.cv.objects import CvListResponse
+from qmunity.controllers.cv.objects import CvTagObject
+from qmunity.controllers.cv.objects import CvTagsResponse
 from qmunity.controllers.obj import UserObj
 from qmunity.models.cv import CvDto
 from qmunity.repository.cv import CvRepository
 from qmunity.repository.cv import CvTagsRepository
 from qmunity.repository.exceptions import ObjectDoesNotFound
 from qmunity.repository.user import UserRepository
-
-
-class CreateCvForm(BaseModel):
-    name: str = Field()
-    purpose: str = Field()
-
-
-class CreateCvResponse(BaseModel):
-    id: str
-
-
-class CvTagObject(BaseModel):
-    id: str
-    tag: str
-
-
-class CvTagsResponse(BaseModel):
-    tags: List[CvTagObject]
-
-
-class CvListItem(BaseModel):
-    id: str
-    name: str
-    purpose: str
-
-
-class CvListResponse(BaseModel):
-    cvs: List[CvListItem]
 
 
 class CvController:
@@ -114,4 +91,21 @@ class CvController:
                 )
                 for cv in cvs_dto
             ]
+        )
+
+    async def get_cv(self, cv_id: str) -> CvDetailedResponse:
+        try:
+            cv_dto = await self.cv_repository.find_cv_by_id(cv_id)
+        except ObjectDoesNotFound:
+            raise HTTPException(status_code=404, detail="CV not found")
+        user_dto = await self.user_repository.find_user_by_id(cv_dto.user_id)
+        return CvDetailedResponse(
+            id=cv_dto.id,
+            user=BasicUserInfo(
+                id=user_dto.id,
+                login=user_dto.login,
+            ),
+            name=cv_dto.name,
+            purpose=cv_dto.purpose,
+            tags=cv_dto.tags
         )

@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import List
 
 from pydantic import BaseModel
 from tortoise import models
@@ -28,3 +29,4 @@ class CvDto(MongoModel):
     user_id: str
     name: str
     purpose: str
+    tags: List[str]
