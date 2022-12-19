@@ -9,6 +9,9 @@ from qmunity.repository.exceptions import ObjectDoesNotFound
 
 
 class UserRepository:
+    """
+    Users repository
+    """
     def __init__(self) -> None:
         self.model = Users
 
@@ -17,6 +20,9 @@ class UserRepository:
         login: str,
         password_hash: str,
     ) -> UserDto:
+        """
+        Create new user in DB
+        """
         user = await self.model.create(
             id=uuid.uuid4(),
             login=login,
@@ -29,6 +35,9 @@ class UserRepository:
         self,
         login: str,
     ) -> UserPasswordHashDto:
+        """
+        Find user by login and get password hash
+        """
         try:
             user = await self.model.get(login=login)
         except DoesNotExist:
@@ -36,6 +45,9 @@ class UserRepository:
         return user.get_dto_with_password_hash()
 
     async def find_user_by_id(self, id: str) -> UserDto:
+        """
+        Find user by id
+        """
         try:
             user = await self.model.get(id=id)
         except DoesNotExist:

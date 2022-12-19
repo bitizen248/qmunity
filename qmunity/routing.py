@@ -7,6 +7,9 @@ from qmunity.endpoints import user
 
 
 def add_routing(app: FastAPI):
+    """
+    Init app routing
+    """
     router = APIRouter(prefix="/v1")
     router.include_router(user.router, prefix="/user")
     router.include_router(auth.router, prefix="/auth")

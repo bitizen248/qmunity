@@ -44,9 +44,7 @@ class PostgresConfig(ConfigModel):
     db_name: str = ""
 
     def get_connection_url(self):
-        return (
-            f"postgres://{self.user}:{self.pwd}@{self.host}:{self.port}/{self.db_name}"
-        )
+        return f"postgres://{self.user}:{self.pwd}@{self.host}:{self.port}/{self.db_name}"
 
 
 POSTGRES_CONFIG = PostgresConfig()
@@ -75,7 +73,10 @@ class MongoConfig(ConfigModel):
 MONGO_CONFIG = MongoConfig()
 
 if __name__ == "__main__":
-    configs = [PostgresConfig.get_fields_defaults(), MongoConfig.get_fields_defaults()]
+    configs = [
+        PostgresConfig.get_fields_defaults(),
+        MongoConfig.get_fields_defaults(),
+    ]
 
     if os.path.exists("../.env"):
         os.remove("../.env")
