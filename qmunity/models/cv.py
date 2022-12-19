@@ -9,6 +9,9 @@ from qmunity.models.mongo_model import MongoModel
 
 
 class CvTag(models.Model):
+    """
+    Model for storing CV tags
+    """
     id = fields.UUIDField(pk=True)
     tag = fields.CharField(max_length=32)
     parent = fields.ForeignKeyField("models.CvTag", null=True)
@@ -19,11 +22,17 @@ class CvTag(models.Model):
 
 
 class CvTagDto(BaseModel):
+    """
+    CV tag DTO
+    """
     id: str
     tag: str
 
 
 class CvDto(MongoModel):
+    """
+    Mongo model for storing users CV
+    """
     created_at: datetime
     modified_at: datetime | None
     user_id: str

@@ -10,6 +10,9 @@ from qmunity.repository.exceptions import ObjectDoesNotFound
 
 
 class AuthRepository:
+    """
+    Repository to work with users tokens
+    """
     def __init__(self) -> None:
         self.model = AuthTokens
 
@@ -22,6 +25,10 @@ class AuthRepository:
         expiration: datetime,
         renew_expiration: datetime,
     ) -> AuthTokenDto:
+        """
+        Create new token
+        :return:
+        """
         token = await self.model.create(
             id=id,
             user_id=user_id,
@@ -33,6 +40,9 @@ class AuthRepository:
         return token.get_dto()
 
     async def find_token(self, token: str) -> UserDto:
+        """
+        Find user by token
+        """
         try:
             token = await self.model.get(token=token).prefetch_related("user")
         except DoesNotExist:

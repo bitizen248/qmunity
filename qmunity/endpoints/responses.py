@@ -2,6 +2,9 @@ from pydantic import BaseModel
 
 
 class SimpleResponse(BaseModel):
+    """
+    Simple response in format {"success": true|false, "reason": "str"}
+    """
     success: bool = True
     reason: str | None
 

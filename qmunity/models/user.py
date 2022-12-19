@@ -3,6 +3,9 @@ from tortoise import fields, models
 
 
 class Users(models.Model):
+    """
+    Users model
+    """
     id = fields.UUIDField(pk=True)
     login = fields.CharField(max_length=64, unique=True)
     password_hash = fields.CharField(max_length=60)
@@ -19,11 +22,17 @@ class Users(models.Model):
 
 
 class UserDto(BaseModel):
+    """
+    User model DTO
+    """
     id: str
     login: str
 
 
 class UserPasswordHashDto(UserDto):
+    """
+    User model DTO with hash
+    """
     password_hash: str
 
     def get_password_salt(self) -> str:

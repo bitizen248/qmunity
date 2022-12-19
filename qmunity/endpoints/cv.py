@@ -2,11 +2,11 @@ from fastapi import APIRouter
 from fastapi import Body
 from fastapi import Depends
 
-from qmunity.controllers.cv import CreateCvForm
-from qmunity.controllers.cv import CreateCvResponse
 from qmunity.controllers.cv import CvController
-from qmunity.controllers.cv import CvListResponse
-from qmunity.controllers.cv import CvTagsResponse
+from qmunity.controllers.cv.objects import CreateCvForm
+from qmunity.controllers.cv.objects import CreateCvResponse
+from qmunity.controllers.cv.objects import CvListResponse
+from qmunity.controllers.cv.objects import CvTagsResponse
 from qmunity.controllers.obj import UserObj
 from qmunity.depends.auth import auth_user
 

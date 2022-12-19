@@ -14,6 +14,9 @@ async def register_user(
     user: UserRegistrationForm = Body(),
     user_controller: UserController = Depends(),
 ) -> SimpleResponse:
+    """
+    Register new user
+    """
     await user_controller.register_user(user)
 
     return SimpleResponse()
@@ -21,4 +24,9 @@ async def register_user(
 
 @router.get("/me")
 async def get_me(user: UserObj = Depends(auth_user)) -> UserObj:
+    """
+    Get current user
+    :param user:
+    :return:
+    """
     return user

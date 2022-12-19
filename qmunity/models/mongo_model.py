@@ -6,6 +6,9 @@ from pydantic import Field
 
 
 class MongoModel(BaseModel, abc.ABC):
+    """
+    Template for working object from/to MongoDB
+    """
     id: str | None = Field(exclude=True)
 
     def __init__(__pydantic_self__, _id=None, **data: Any) -> None:

@@ -20,6 +20,10 @@ from qmunity.repository.user import UserRepository
 
 
 class CvController:
+    """
+    Controller for interacting with CVs
+    """
+
     def __init__(
         self,
         cv_tag_repository: CvTagsRepository = Depends(),
@@ -36,6 +40,9 @@ class CvController:
         offset: int = 0,
         limit: int = 50,
     ) -> CvTagsResponse:
+        """
+        Get tags for CV
+        """
         tags = await self.cv_tag_repository.get_cv_tags(
             parent_id=parent_id,
             limit=limit,
@@ -55,6 +62,9 @@ class CvController:
         user: UserObj,
         form: CreateCvForm,
     ) -> CreateCvResponse:
+        """
+        Create CV for user
+        """
         users_cvs = await self.cv_repository.find_users_cv(user.id)
         names = set([cv.name for cv in users_cvs])
         if form.name in names:
@@ -73,6 +83,9 @@ class CvController:
         offset: int = 0,
         limit: int = 50,
     ) -> CvListResponse:
+        """
+        Get user's CVs
+        """
         try:
             await self.user_repository.find_user_by_id(user_id)
         except ObjectDoesNotFound:
@@ -94,6 +107,9 @@ class CvController:
         )
 
     async def get_cv(self, cv_id: str) -> CvDetailedResponse:
+        """
+        Get specific CV
+        """
         try:
             cv_dto = await self.cv_repository.find_cv_by_id(cv_id)
         except ObjectDoesNotFound:
@@ -107,5 +123,5 @@ class CvController:
             ),
             name=cv_dto.name,
             purpose=cv_dto.purpose,
-            tags=cv_dto.tags
+            tags=cv_dto.tags,
         )
